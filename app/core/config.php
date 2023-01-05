@@ -8,3 +8,4 @@ const DB_USER = "user";
 const DB_PASS = "user";
 
 const ROOT = "http://localhost/php-project-school/public";
+const ROUTE = "/php-site-school/public/";
