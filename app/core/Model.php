@@ -4,7 +4,7 @@ class Model extends Database
 {
     public function insert()
     {
-
+        
     }
     
     public function update()

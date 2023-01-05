@@ -36,7 +36,7 @@
             </div>
 
             <div class="mt-10">
-            <form action="#">
+            <form method="post" action="">
             <div class="flex flex-col mb-5">
                     <label for="username" class="mb-1 text-xs tracking-wide text-gray-600">Username:</label>
                     <div class="relative">
@@ -115,6 +115,8 @@
                 <div class="flex w-full">
                 <button
                     type="submit"
+                    name="register-submit"
+                    value="register-submit"
                     class="
                     flex
                     mt-2
@@ -130,8 +132,7 @@
                     w-full
                     transition
                     duration-150
-                    ease-in
-                    "
+                    ease-in"
                 >
                     <span class="mr-2 uppercase">Register</span>
                     <span>
