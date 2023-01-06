@@ -21,7 +21,7 @@ class Login extends Controller
             $username = filter_var($_POST['username'],FILTER_SANITIZE_FULL_SPECIAL_CHARS);
             $password = $_POST['password'];
 
-            $user = $this->model("User");
+            $user = $this->model("user");
             $user->loginInput([
                 "username" => $username,
                 "password" => $password

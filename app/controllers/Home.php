@@ -13,10 +13,25 @@ class Home extends Controller
             session_unset();
             session_destroy();
         }
-        
-        $_SESSION['LAST_ACTIVITY'] = time();
 
+        // $data['username'] = empty($_SESSION['user']) ? 'User':$_SESSION['user']->username;
+        $_SESSION['LAST_ACTIVITY'] = time();
         $this->view("home");
     }
 
+    public function logout()
+    {
+        session_unset();
+        session_destroy();
+        header("Location:".ROUTE."login");
+    }
+
+    public function admin()
+    {
+        if($_SESSION['user']['admin'] !== 1) {
+            return header("Location:".ROUTE."home");
+        } 
+
+        $this->view("admin");
+    }
 }

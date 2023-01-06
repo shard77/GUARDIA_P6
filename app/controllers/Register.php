@@ -35,7 +35,7 @@ class Register extends Controller
                 $password = hashPassword($password);
             }
             
-            $user = $this->model("User");
+            $user = $this->model("user");
             $user->registerInput([
                 "username" => $username,
                 "email" => $email,

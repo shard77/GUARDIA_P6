@@ -19,21 +19,14 @@ class User extends Model
                 $_SESSION['user'] = [
                     "id" => $user->id,
                     "username" => $user->username,
-                    "email" => $user->email
+                    "email" => $user->email,
+                    "admin" => $user->admin
                 ];
                 
-                show($_SESSION['user']);
                 return true;
             }
         }
 
         return false;
-    }
-
-    public function logout() 
-    {
-        session_unset();
-        session_destroy();
-        header("Location:".ROUTE."login");
     }
 }

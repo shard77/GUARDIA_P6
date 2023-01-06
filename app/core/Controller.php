@@ -20,8 +20,7 @@ class Controller
             require $filename;
             return new $name();
         } else {
-            $filename = "../app/views/404.view.php";
-            require $filename;
+            echo "model not found";
         }
     }    
 }
