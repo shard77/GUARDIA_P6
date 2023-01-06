@@ -4,13 +4,17 @@ class Register extends Controller
 {
     public function index()
     {
-        echo "This is the register controller";
+        if (!checkSession()) {
+            echo "This is the register controller";
 
-        if(!empty($_POST['register-submit'])) {
-            $this->register();
-		}
-
-        $this->view("register");
+            if(!empty($_POST['register-submit'])) {
+                $this->register();
+            }
+    
+            $this->view("register");
+        } else {
+            header("Location:".ROUTE."home");
+        }
     }
 
     public function register() 
@@ -25,10 +29,21 @@ class Register extends Controller
 
             $password = $_POST['password'];
             $passwordValidate = $_POST['password-validate'];
-
             if ($password !== $passwordValidate) {
                show("NOT THE SAME PASSWORD!");
-            }            
+            } else {
+                $password = hashPassword($password);
+            }
+            
+            $user = $this->model("User");
+            $user->registerInput([
+                "username" => $username,
+                "email" => $email,
+                "password" => $password
+            ]);
+
+            header("Location:".ROUTE."login");
+
         }
     }
 

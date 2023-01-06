@@ -2,9 +2,21 @@
 
 class Home extends Controller
 {
-    public function index($a = "", $b = "", $c = "")
+    public function index()
     {
-        echo "This is the home controller";
+
+        if (!checkSession()) {
+            header("Location:".ROUTE."login");
+        }
+
+        if(isset($_SESSION['LAST_ACTIVITY']) && (time() - $_SESSION['LAST_ACTIVITY'] > 1800)) {
+            session_unset();
+            session_destroy();
+        }
+        
+        $_SESSION['LAST_ACTIVITY'] = time();
+
         $this->view("home");
     }
+
 }

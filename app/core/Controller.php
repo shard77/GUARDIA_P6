@@ -13,5 +13,15 @@ class Controller
         }
     }
     
-    
+    public function model($name)
+    {
+        $filename = "../app/models/".$name.".model.php";
+        if (file_exists($filename)) {
+            require $filename;
+            return new $name();
+        } else {
+            $filename = "../app/views/404.view.php";
+            require $filename;
+        }
+    }    
 }

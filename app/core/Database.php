@@ -24,4 +24,20 @@ class Database
 
         return false;
     }
+
+    public function getRow($query, $data = [])
+    {
+        $conn = $this->connect();
+        $stm = $conn->prepare($query);
+
+        $check = $stm->execute($data);
+        if ($check) {
+            $result = $stm->fetchAll(PDO::FETCH_OBJ);
+            if (is_array($result) && count($result)) {
+                return $result[0];
+            }
+        }
+
+        return false;
+    }
 }
