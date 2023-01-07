@@ -29,4 +29,29 @@ class User extends Model
 
         return false;
     }
+
+    public function showUsers()
+    {
+        $users = $this->query("SELECT * FROM users");
+        return $users;
+    }
+
+    public function deleteUser($id)
+    {
+        $this->delete("users", "id", $id);
+    }
+
+    public function showUser($id)
+    {
+        $user = $this->getRow("SELECT * FROM users WHERE id = :id", [
+            "id" => $id
+        ]);
+
+        return $user;
+    }
+    
+    public function updateUser($id, $data)
+    {
+        $this->update($data, "users", "id", $id);
+    }
 }

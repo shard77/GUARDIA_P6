@@ -17,18 +17,24 @@ class Login extends Controller
 
     public function login() 
     {
-        if(!empty($_POST) && !empty($_POST['username']) && !empty($_POST['password'])) {
-            $username = filter_var($_POST['username'],FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-            $password = $_POST['password'];
+        if(!empty($_POST['login-submit'])) {
+            if($_POST['csrfToken'] === $_SESSION['csrf_token']) {
+                if (!empty($_POST['username']) && !empty($_POST['password'])) {
+                    $username = filter_var($_POST['username'],FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+                    $password = $_POST['password'];
+        
+                    $user = $this->model("user");
+                    $user->loginInput([
+                        "username" => $username,
+                        "password" => $password
+                    ]);
 
-            $user = $this->model("user");
-            $user->loginInput([
-                "username" => $username,
-                "password" => $password
-            ]);
+                    header("Location:".ROUTE."home");
+                }
 
-            header("Location:".ROUTE."home");
-            
+            } else {
+                show("CSRF token is not valid");
+            }         
         }
     }
 

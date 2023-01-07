@@ -6,7 +6,7 @@
   <title>User Dashboard</title>
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-gray-900">
+<body class="bg-gray-200">
   <nav class="bg-white shadow-md rounded-md">
     <div class="container mx-auto px-4 py-2 flex items-center justify-between">
       <a href="#" class="text-xl font-bold text-gray-900">User Dashboard</a>
@@ -19,10 +19,10 @@
   </nav>
   <div class="container mx-auto px-4 py-8">
     <div class="flex items-center mb-4">
-      <img src="#" alt="Profile Picture" class="w-12 h-12 rounded-full mr-4">
+      <img src="https://assets.stickpng.com/thumbs/585e4beacb11b227491c3399.png" alt="Profile Picture" class="w-12 h-12 rounded-full mr-4">
       <div>
-        <h1 class="text-2xl font-bold mb-2 text-white"><?=$username?></h1>
-        <p class="text-lg font-light text-white">E-Mail Address</p>
+        <h1 class="text-2xl font-bold mb-2 text-black"><?=$data['username']?></h1>
+        <p class="text-lg font-light text-black"><?=$data['email']?></p>
       </div>
     </div>
     <div class="bg-white shadow rounded-md p-4">
@@ -33,7 +33,7 @@
         <li class="mb-2">Proin dignissim mi at diam elementum</li>
       </ul>
     </div>
-    <h1 class="text-white text-xl font-semibold mt-5">Recent Posts:</h1>
+    <h1 class="text-black text-xl font-semibold mt-5">Recent Posts:</h1>
     <div class="max-w-3xl flex items-left mt-3">
   <div class="flex flex-col">
     <div class="bg-white rounded-lg shadow-lg p-4 mb-4">
@@ -80,6 +80,6 @@
     </div>
   </div>
 </div>
-  </div>
+</div>
 </body>
 </html>

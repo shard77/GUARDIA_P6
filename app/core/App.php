@@ -15,6 +15,12 @@ class App
     public function loadController()
     {
         $URL = $this->splitURL();
+        for ($i = 0; $i < count($URL); $i++) {
+            if (isset($URL[$i])) {
+                $URL[$i] = filter_var($URL[$i], FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+            }
+        }
+
         $filename = "../app/controllers/" . ucfirst($URL[0]) . ".php";
         if (file_exists($filename)) {
             require $filename;
@@ -33,6 +39,35 @@ class App
                 unset($URL[1]);
             }
         }
+
+        if(!empty($URL[2])) {
+            if(method_exists($controller, $URL[2])) {
+                $this->method = $URL[2];
+                unset($URL[2]);
+            }
+        }
+
+        if(!empty($URL[3])) {
+            if(method_exists($controller, $URL[3])) {
+                $this->method = $URL[3];
+                unset($URL[3]);
+            }
+        }
+
+        if(!empty($URL[4])) {
+            if(method_exists($controller, $URL[4])) {
+                $this->method = $URL[4];
+                unset($URL[4]);
+            }
+        }
+
+        /*for ($i = 1; $i < count($URL); $i++) {
+            if (method_exists($controller, $URL[$i])) {
+                $this->method = $URL[$i];
+                unset($URL[$i]);
+            }
+        }*/
+
         call_user_func_array([$controller, $this->method], $URL);
     }
 }

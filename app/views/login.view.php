@@ -71,6 +71,7 @@
                 </div>
 
                 <div class="flex w-full">
+                <input type="hidden" name="csrfToken" value="<?=$_SESSION["csrf_token"]?>"/>
                 <button
                     type="submit"
                     name="login-submit"
