@@ -138,6 +138,5 @@
         </div>
         </div>
     </main>
-    <script src="https://kit.fontawesome.com/85b199d966.js" crossorigin="anonymous"></script>
 </body>
 </html>

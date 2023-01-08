@@ -9,3 +9,7 @@ require("../app/core/init.php");
 
 $app = new App;
 $app->loadController();
+
+?>
+
+<script src="https://kit.fontawesome.com/85b199d966.js" crossorigin="anonymous"></script>

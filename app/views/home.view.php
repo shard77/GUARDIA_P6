@@ -12,7 +12,7 @@
       <a href="#" class="text-xl font-bold text-gray-900">User Dashboard</a>
       <div>
         <a href="#" class="px-4 py-2 font-bold text-gray-900 rounded-full hover:bg-gray-300 focus:outline-none focus:shadow-outline-blue active:bg-gray-800">Profile</a>
-        <a href="#" class="px-4 py-2 font-bold text-gray-900 rounded-full hover:bg-gray-300 focus:outline-none focus:shadow-outline-blue">Settings</a>
+        <a href="home/settings" class="px-4 py-2 font-bold text-gray-900 rounded-full hover:bg-gray-300 focus:outline-none focus:shadow-outline-blue">Settings</a>
         <a href="home/logout" class="px-4 py-2 font-bold text-gray-900 rounded-full hover:bg-gray-300 focus:outline-none focus:shadow-outline-blue">Logout</a>
       </div>
     </div>
@@ -32,54 +32,9 @@
         <li class="mb-2">Consectetur adipiscing elit</li>
         <li class="mb-2">Proin dignissim mi at diam elementum</li>
       </ul>
-    </div>
-    <h1 class="text-black text-xl font-semibold mt-5">Recent Posts:</h1>
-    <div class="max-w-3xl flex items-left mt-3">
-  <div class="flex flex-col">
-    <div class="bg-white rounded-lg shadow-lg p-4 mb-4">
-      <div class="flex items-center justify-between pb-4">
-        <div class="text-lg font-bold text-gray-800">
-          User Name
-        </div>
-        <div class="text-gray-600">
-          Date and Time
-        </div>
-      </div>
-      <div class="text-gray-700 leading-relaxed">
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris bibendum
-        lacus eu mauris fermentum, eu tincidunt lacus efficitur.
-      </div>
-    </div>
-    <div class="bg-white rounded-lg shadow-lg p-4 mb-4">
-      <div class="flex items-center justify-between pb-4">
-        <div class="text-lg font-bold text-gray-800">
-          User Name
-        </div>
-        <div class="text-gray-600">
-          Date and Time
-        </div>
-      </div>
-      <div class="text-gray-700 leading-relaxed">
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris bibendum
-        lacus eu mauris fermentum, eu tincidunt lacus efficitur.
-      </div>
-    </div>
-    <div class="bg-white rounded-lg shadow-lg p-4 mb-4">
-      <div class="flex items-center justify-between pb-4">
-        <div class="text-lg font-bold text-gray-800">
-          User Name
-        </div>
-        <div class="text-gray-600">
-          Date and Time
-        </div>
-      </div>
-      <div class="text-gray-700 leading-relaxed">
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris bibendum
-        lacus eu mauris fermentum, eu tincidunt lacus efficitur.
-      </div>
-    </div>
-  </div>
-</div>
+    </div>  
+    <button type="button" onclick="window.location.href='home/create'" class="mt-5 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Create Project</button>
+
 </div>
 </body>
 </html>

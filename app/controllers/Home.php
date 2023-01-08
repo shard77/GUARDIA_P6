@@ -15,7 +15,6 @@ class Home extends Controller
 
         $data['username'] = empty($_SESSION['user']) ? 'User':$_SESSION['user']['username'];
         $data['email'] = empty($_SESSION['user']) ? 'Mail':$_SESSION['user']['email'];
-
         $_SESSION['LAST_ACTIVITY'] = time();
         $this->viewArgs("home", $data);
     }
@@ -47,6 +46,62 @@ class Home extends Controller
         $user = $this->model("user");
         $data['users'] = $user->showUsers();
         $this->viewArgs("users", $data);
+    }
+
+    public function settings()
+    {
+        if(!checkSession()) {
+            return header("Location:".ROUTE."login");
+        } 
+
+        $userModel = $this->model("user");
+        $data = $userModel->showUser($_SESSION['user']['id']);
+        $this->viewArgs("settings", $data);
+
+        if(!empty($_POST['user-update-submit'])) {
+            if($_POST['csrfToken'] === $_SESSION['csrf_token']) {
+                if(!empty($_POST['password']) || !empty($_POST['password-new'])) {
+                    if(password_verify($_POST['password'], $data->password)) {
+                        $userModel->updateUser($_SESSION['user']['id'], ['password' => password_hash($_POST['password-new'], PASSWORD_BCRYPT)]);
+                    } else {
+                        show("Password is not valid");
+                    }
+                }
+                if(!empty($_POST['username'])) {
+                    $userModel->updateUser($_SESSION['user']['id'], ['username' => $_POST['username']]);
+                    show("Username updated");
+                }
+                if(!empty($_POST['email'])) {
+                    $userModel->updateUser($_SESSION['user']['id'], ['email' => $_POST['email']]);
+                    show("Email updated");
+                }
+            } else {
+                show("CSRF token is not valid");
+            }         
+        }
+    }
+
+    public function create()
+    {
+        if(!empty($_POST['project-creation-submit'])) {
+            if($_POST['csrfToken'] === $_SESSION['csrf_token']) {
+                if(!empty($_POST['project-creation-title']) || !empty($_POST['project-creation-content'])) {
+                    $projectModel = $this->model("project");
+                    $projectModel->createProject([
+                        "title" => $_POST['project-creation-title'],
+                        "content" => $_POST['project-creation-content'],
+                        "creator_id" => $_SESSION['user']['id'],
+                    ]);
+        
+                    header("Location:".ROUTE."home");
+                } else {
+                    show("Please fill all fields");
+                }
+            } else {
+                show("CSRF token is not valid");
+            }         
+        }
+        $this->view("project_creation");
     }
 
     public function manage($value)
