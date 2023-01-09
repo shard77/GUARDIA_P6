@@ -161,12 +161,11 @@ class Home extends Controller
         
         if(!empty($data)) {
             show($data);
+            $this->viewArgs("projects_user", $data);
         } else {
             $data = $projectModel->fetchProjectById($id);
             show($data);
-            show("hey");
+            $this->viewArgs("project_detail", $data);
         }
-       
-        $this->viewArgs("projects_user", $data);
     }    
 }
