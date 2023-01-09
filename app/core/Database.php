@@ -33,6 +33,10 @@ class Database
     {
         $conn = $this->connect();
         $stm = $conn->prepare($query);
+        
+        foreach ($data as $key => $value) {
+            $stm->bindParam(":".$key, $data[$key]);
+        }
 
         $check = $stm->execute($data);
         if ($check) {

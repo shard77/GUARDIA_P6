@@ -2,18 +2,27 @@
 
 class Project extends Model
 {
-    public function fetchProject($id)
+    public function fetchUserProjects($userId)
     {
-        $post = $this->getRow("SELECT * FROM posts WHERE id = :id", [
-            "id" => $id
+        $project = $this->query("SELECT * FROM projects WHERE creator_id = :id", [
+            "id" => $userId
         ]);
 
-        return $post;
+        return $project;
+    }
+
+    public function fetchProjectById($projectId)
+    {
+        $project = $this->getRow("SELECT * FROM projects WHERE id = :id", [
+            "id" => $projectId
+        ]);
+
+        return $project;
     }
 
     public function createProject($data) 
     {
-        $this->insert($data, "posts");
+        $this->insert($data, "projects");
         return true;
     }
 }

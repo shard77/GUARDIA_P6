@@ -15,6 +15,8 @@ class App
     public function loadController()
     {
         $URL = $this->splitURL();
+        $SecondLast = array_slice($URL, -2, 1);
+  
         for ($i = 0; $i < count($URL); $i++) {
             if (isset($URL[$i])) {
                 $URL[$i] = filter_var($URL[$i], FILTER_SANITIZE_FULL_SPECIAL_CHARS);
@@ -68,7 +70,12 @@ class App
             }
         }*/
 
-        call_user_func_array([$controller, $this->method], $URL);
+        if(!empty($URL[array_key_last($URL)]) && $SecondLast[0] == "projects" ) {
+            $data = [$URL[array_key_last($URL)]];
+            call_user_func_array([$controller, "projectlist"], $data);
+        } else {
+            call_user_func_array([$controller, $this->method], $URL);
+        }
     }
 
 

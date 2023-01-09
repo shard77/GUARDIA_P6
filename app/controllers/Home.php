@@ -148,10 +148,25 @@ class Home extends Controller
         }   
     }
 
-    public function posts() 
+    public function projects() 
     {
-
-       $this->view("posts");
+       $this->view("projects");
     }
-    
+
+    public function projectlist($id)
+    {   
+        
+        $projectModel = $this->model("project");
+        $data = $projectModel->fetchUserProjects($id);
+        
+        if(!empty($data)) {
+            show($data);
+        } else {
+            $data = $projectModel->fetchProjectById($id);
+            show($data);
+            show("hey");
+        }
+       
+        $this->viewArgs("projects_user", $data);
+    }    
 }
