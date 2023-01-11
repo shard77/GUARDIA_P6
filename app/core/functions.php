@@ -20,3 +20,12 @@ function hashPassword($password)
 {
     return password_hash($password, PASSWORD_BCRYPT, $GLOBALS['bcryptOptions']);
 }
+
+function showError($error)
+{
+    $_SESSION['error'] = $error;
+    if(!empty($_SESSION['error'])) {
+        show($_SESSION['error']);
+        unset($_SESSION['error']);
+    }
+}

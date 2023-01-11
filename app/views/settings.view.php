@@ -11,15 +11,15 @@
     <div class="container mx-auto px-4 py-2 flex items-center justify-between">
       <a href="#" class="text-xl font-bold text-gray-900">User Settings</a>
       <div>
-        <a href="home/settings" class="px-4 py-2 font-bold text-gray-900 rounded-full hover:bg-gray-300 focus:outline-none focus:shadow-outline-blue active:bg-gray-800">Profile</a>
+        <a href="projects" class="px-4 py-2 font-bold text-gray-900 rounded-full hover:bg-gray-300 focus:outline-none focus:shadow-outline-blue active:bg-gray-800">Projects</a>
         <a href="<?php echo ROUTE;?>home" class="px-4 py-2 font-bold text-gray-900 rounded-full hover:bg-gray-300 focus:outline-none focus:shadow-outline-blue">Home</a>
-        <a href="home/logout" class="px-4 py-2 font-bold text-gray-900 rounded-full hover:bg-gray-300 focus:outline-none focus:shadow-outline-blue">Logout</a>
+        <a href="logout" class="px-4 py-2 font-bold text-gray-900 rounded-full hover:bg-gray-300 focus:outline-none focus:shadow-outline-blue">Logout</a>
       </div>
     </div>
   </nav>
   <div class="container mx-auto px-4 py-8">
     <div class="flex items-center mb-4">
-      <img src="https://assets.stickpng.com/thumbs/585e4beacb11b227491c3399.png" alt="Profile Picture" class="w-12 h-12 rounded-full mr-4">
+      <img src="<?php echo ROUTE;?>assets/img/base_avatar.webp" alt="Profile Picture" class="w-12 h-12 rounded-full mr-4">
       <div>
         <h1 class="text-2xl font-bold mb-2 text-black"><?=$data->username?></h1>
         <p class="text-lg font-light text-black"><?=$data->email?></p>

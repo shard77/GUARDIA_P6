@@ -54,4 +54,15 @@ class User extends Model
     {
         $this->update($data, "users", "id", $id);
     }
+
+    public function checkUserCreds($data)
+    {
+        $data = $this->showUser($data);
+        if(!$data) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
 }

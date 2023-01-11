@@ -71,8 +71,13 @@ class App
         }*/
 
         if(!empty($URL[array_key_last($URL)]) && $SecondLast[0] == "projects" ) {
-            $data = [$URL[array_key_last($URL)]];
-            call_user_func_array([$controller, "projectlist"], $data);
+            if (str_starts_with($URL[array_key_last($URL)], "u")) {
+                $data = [$URL[array_key_last($URL)]];
+                call_user_func_array([$controller, "userprojects"], $data);
+            } else if (str_starts_with($URL[array_key_last($URL)], "p")) {
+                $data = [$URL[array_key_last($URL)]];
+                call_user_func_array([$controller, "projectdetail"], $data);
+            }
         } else {
             call_user_func_array([$controller, $this->method], $URL);
         }

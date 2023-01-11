@@ -16,6 +16,7 @@ class Home extends Controller
         $data['username'] = empty($_SESSION['user']) ? 'User':$_SESSION['user']['username'];
         $data['email'] = empty($_SESSION['user']) ? 'Mail':$_SESSION['user']['email'];
         $_SESSION['LAST_ACTIVITY'] = time();
+        
         $this->viewArgs("home", $data);
     }
 
@@ -75,6 +76,7 @@ class Home extends Controller
                     $userModel->updateUser($_SESSION['user']['id'], ['email' => $_POST['email']]);
                     show("Email updated");
                 }
+
             } else {
                 show("CSRF token is not valid");
             }         
@@ -153,19 +155,35 @@ class Home extends Controller
        $this->view("projects");
     }
 
-    public function projectlist($id)
+    public function userprojects($userId)
     {   
-        
+        $userId = substr($userId, strpos($userId, "u") + 1);    
+
         $projectModel = $this->model("project");
-        $data = $projectModel->fetchUserProjects($id);
+        $data = $projectModel->fetchUserProjects($userId);
         
         if(!empty($data)) {
-            show($data);
             $this->viewArgs("projects_user", $data);
         } else {
-            $data = $projectModel->fetchProjectById($id);
-            show($data);
-            $this->viewArgs("project_detail", $data);
+            show("User hasn't any projects!");
         }
     }    
+
+    public function projectdetail($projectId)
+    {   
+        $projectId = substr($projectId, strpos($projectId, "p") + 1);    
+
+        $projectModel = $this->model("project");
+        $data = $projectModel->fetchProjectById($projectId);
+        
+        $userModel = $this->model("user");
+        if(!empty($data)) {
+            $user = $userModel->showUser($data->creator_id);
+            $data->creator_name = $user->username;
+            $this->viewArgs("project_detail", $data);
+        } else {
+            show("Project not existing");
+        }
+      
+    }
 }

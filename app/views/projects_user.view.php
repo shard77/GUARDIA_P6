@@ -24,17 +24,12 @@
       <main>
       <h1 class="text-black text-xl font-semibold mt-5">User's Projects:</h1>
       <?php 
-              foreach($data as $project){
+        foreach($data as $project){
                 ?>
                 <div class="py-4">
                   <div class="bg-white rounded shadow-md overflow-hidden">
                   <div class="p-4">
                     <div class="mb-4 flex items-center">
-                      <img
-                        class="w-12 h-12 rounded-full mr-4"
-                        src="/images/avatar.jpg"
-                        alt="Avatar"
-                      />
                       <div class="text-xl font-bold text-gray-800">
                         <?=$project->title?>
                       </div>
@@ -42,7 +37,13 @@
                     <div class="text-gray-700">
                       <?=$project->content?>
                     </div>
-                  </div>
+                    <div class="text-gray-400 mt-2">
+                      Created: <?=$project->creation_date?>
+                    </div>
+                    <div class="text-blue-500">
+                      <a href="p<?=$project->id?>">Read more</a>
+                    </div>
+                  </div>  
                 </div>
               </div>
             <?php
