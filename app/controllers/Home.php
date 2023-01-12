@@ -88,21 +88,41 @@ class Home extends Controller
         if(!empty($_POST['user-update-submit'])) {
             if($_POST['csrfToken'] === $_SESSION['csrf_token']) {
                 if(!empty($_POST['password']) || !empty($_POST['password-new'])) {
-                    if(password_verify($_POST['password'], $data->password)) {
-                        $userModel->updateUser($_SESSION['user']['id'], ['password' => password_hash($_POST['password-new'], PASSWORD_BCRYPT)]);
+                    $password = trim($_POST['password']);
+                    $passwordNew = trim($_POST['password-new']);
+
+                    if(!preg_match('/^(?=.*\d)(?=.*[@#\-_$%^&+=§!\?])(?=.*[a-z])(?=.*[A-Z])[0-9A-Za-z@#\-_$%^&+=§!\?]{8,20}$/',$passwordNew)) {
+                        show("<div class='text-black absolute mt-12'>For password: at least one lowercase char, at least one uppercase char, at least one digit,at least one special sign of @#-_$%^&+=§!?</div>");
+                    } elseif(password_verify($password, $data->password)) {
+                        $userModel->updateUser($_SESSION['user']['id'], ['password' => password_hash($passwordNew, PASSWORD_BCRYPT)]);
                     } else {
                         show("Password is not valid");
                     }
                 }
+
                 if(!empty($_POST['username'])) {
-                    $userModel->updateUser($_SESSION['user']['id'], ['username' => $_POST['username']]);
-					header("Location:".ROUTE."home");
-                }
-                if(!empty($_POST['email'])) {
-                    $userModel->updateUser($_SESSION['user']['id'], ['email' => $_POST['email']]);
-                    header("Location:".ROUTE."home");
+                    $username = trim(filter_var($_POST['username'],FILTER_SANITIZE_FULL_SPECIAL_CHARS));
+                    if(!preg_match('/^\w{3,}$/', $username)) {
+                        show("<div class='text-black absolute mt-12'>Username must be at least 3 characters long</div>");
+                    } elseif($userModel->checkUserCreds($username) == 0){
+                        show("<div class='text-black absolute mt-12'>username already exists!</div>");
+                    } else {
+                        $userModel->updateUser($_SESSION['user']['id'], ['username' => $username]);
+                        header("Location:".ROUTE."home");
+                    }
                 }
 
+                if(!empty($_POST['email'])) {
+                    $email = trim(filter_var($_POST['email'],FILTER_SANITIZE_EMAIL));
+                    if(!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+                        show("<div class='text-white absolute mt-12'>Email is not valid</div>");
+                    } elseif($userModel->checkUserCreds($email) == 0){
+                        show("<div class='text-black absolute mt-12'>email already exists!</div>");
+                    } else {
+                        $userModel->updateUser($_SESSION['user']['id'], ['email' => $email]);
+                        header("Location:".ROUTE."home");
+                    }
+                }
             } else {
                 show("CSRF token is not valid");
             }         
@@ -272,7 +292,7 @@ class Home extends Controller
                             "content" => $sanitizedContent
                         ], $id);
                         
-                        header("Location:projects/p".$id);
+                        header("Location:".ROUTE."home/projects/p".$id);
                     }
                 }
             }

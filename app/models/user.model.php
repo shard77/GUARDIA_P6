@@ -38,6 +38,7 @@ class User extends Model
 
     public function deleteUser($id)
     {
+        $this->delete("projects", "creator_id", $id);
         $this->delete("users", "id", $id);
     }
 
