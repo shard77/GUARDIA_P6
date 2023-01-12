@@ -39,7 +39,7 @@
                       <form action="users/manage/<?=$user->id?>" method="post">
                         <input type="hidden" name="csrfToken" value="<?=$_SESSION["csrf_token"]?>"/>
                         <button type="submit" name="delete-user-submit" value="delete-user-submit" class="btn bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">Delete</button>
-                        <button class="btn bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">See Posts</button>
+                        <button type="submit" name="projects-user-submit" value="projects-user-submit" class="btn bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">See Projects</button>
                         <button type="submit" name="admin-user-submit" value="admin-user-submit" class="btn bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"><?php if($user->admin === 1){ echo "Remove Admin";}else{echo "Add Admin";}?></button>
                       </form>
                     </td>

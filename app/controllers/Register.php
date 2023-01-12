@@ -28,8 +28,6 @@ class Register extends Controller
                     if(!preg_match('/^\w{3,}$/', $username)) {
                         show("<div class='text-white absolute'>Please use a username that is at least 3 letters.</div>");
                     } elseif(!preg_match('/^(?=.*\d)(?=.*[@#\-_$%^&+=§!\?])(?=.*[a-z])(?=.*[A-Z])[0-9A-Za-z@#\-_$%^&+=§!\?]{8,20}$/',$password)) {
-                        show($password);
-                        show($passwordValidate);
                         show("<div class='text-white absolute'>For password: at least one lowercase char, at least one uppercase char, at least one digit,at least one special sign of @#-_$%^&+=§!?</div>");
                     } elseif($password !== $passwordValidate){
                         show("Your passwords are not the same!");

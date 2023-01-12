@@ -23,19 +23,23 @@ class Login extends Controller
                     $username = filter_var($_POST['username'],FILTER_SANITIZE_FULL_SPECIAL_CHARS);
                     $password = $_POST['password'];
         
-                    $user = $this->model("user");
-                    $user->loginInput([
+                    $userModel = $this->model("user");
+                    $user = $userModel->loginInput([
                         "username" => $username,
                         "password" => $password
                     ]);
+                    show($user);
 
-                    header("Location:".ROUTE."home");
+                    if(!$user) {
+                        show("<div class='text-white absolute'>Username or password is incorrect!</div>");
+                    } else {
+                        header("Location:".ROUTE."home");
+                    }
                 }
 
             } else {
-                show("CSRF token is not valid");
+                show("<div class='text-white absolute'>CSRF Token is not valid :(</div>");
             }         
         }
     }
-
 }

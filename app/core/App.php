@@ -16,7 +16,7 @@ class App
     {
         $URL = $this->splitURL();
         $SecondLast = array_slice($URL, -2, 1);
-  
+
         for ($i = 0; $i < count($URL); $i++) {
             if (isset($URL[$i])) {
                 $URL[$i] = filter_var($URL[$i], FILTER_SANITIZE_FULL_SPECIAL_CHARS);
@@ -71,10 +71,10 @@ class App
         }*/
 
         if(!empty($URL[array_key_last($URL)]) && $SecondLast[0] == "projects" ) {
-            if (str_starts_with($URL[array_key_last($URL)], "u")) {
+            if(str_starts_with($URL[array_key_last($URL)], "u")) {
                 $data = [$URL[array_key_last($URL)]];
                 call_user_func_array([$controller, "userprojects"], $data);
-            } else if (str_starts_with($URL[array_key_last($URL)], "p")) {
+            } else if(str_starts_with($URL[array_key_last($URL)], "p")) {
                 $data = [$URL[array_key_last($URL)]];
                 call_user_func_array([$controller, "projectdetail"], $data);
             }

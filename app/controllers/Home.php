@@ -148,6 +148,16 @@ class Home extends Controller
                 show("CSRF token is not valid");
             }         
         }   
+
+        if(!empty($_POST['projects-user-submit'])) {
+            if($_POST['csrfToken'] === $_SESSION['csrf_token']) {
+                
+                header("Location:".ROUTE."home/projectmanager/u".$value);
+
+            } else {
+                show("CSRF token is not valid");
+            }
+        }
     }
 
     public function projects() 
@@ -185,5 +195,72 @@ class Home extends Controller
             show("Project not existing");
         }
       
+    }
+
+    public function projectmanager($id)
+    {
+        if($_SESSION['user']['admin'] !== 1) {
+            return header("Location:".ROUTE."home");
+        } 
+
+        if(isset($_POST['delete-project-user'])) {
+            if($_POST['csrfToken'] === $_SESSION['csrf_token']) {
+                
+                $projectModel = $this->model("project");
+                $projectModel->deleteProject($id);
+
+                header("Location:".ROUTE."home/projectmanager/u".$id);
+
+            } else {
+                show("CSRF token is not valid");
+            }
+        }
+        
+        $id = substr($id, strpos($id, "u") + 1);    
+        $projectModel = $this->model("project");
+        $data = $projectModel->fetchUserProjects($id);
+
+        $this->viewArgs("project_manager_user", $data);
+
+    }
+
+    public function deleteUserProjects($id)
+    {
+        if($_SESSION['user']['admin'] !== 1) {
+            return header("Location:".ROUTE."home");
+        } 
+
+        if(isset($_POST['delete-project-user'])) {
+            if($_POST['csrfToken'] === $_SESSION['csrf_token']) {
+                
+                $projectModel = $this->model("project");
+                $projectModel->deleteProject($id);
+
+                header("Location:".ROUTE."home/projectmanager/u".$id);
+
+            } else {
+                show("CSRF token is not valid");
+            }
+        }
+    }
+
+    public function deleteProject($id)
+    {
+        if($_SESSION['user']['admin'] !== 1) {
+            return header("Location:".ROUTE."home");
+        } 
+
+        if(isset($_POST['delete-project'])) {
+            if($_POST['csrfToken'] === $_SESSION['csrf_token']) {
+                
+                $projectModel = $this->model("project");
+                $projectModel->deleteProject($id);
+
+                header("Location:".ROUTE."home/projects");
+
+            } else {
+                show("CSRF token is not valid");
+            }
+        }
     }
 }

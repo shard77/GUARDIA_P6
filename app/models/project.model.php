@@ -25,4 +25,9 @@ class Project extends Model
         $this->insert($data, "projects");
         return true;
     }
+
+    public function deleteProject($data)
+    {
+        $this->delete("projects", "id", $data);
+    }
 }
