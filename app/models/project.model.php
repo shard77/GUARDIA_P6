@@ -11,6 +11,12 @@ class Project extends Model
         return $project;
     }
 
+    public function fetchallProjects()
+    {
+        $project = $this->query("SELECT * FROM projects");
+        return $project;
+    }
+
     public function fetchProjectById($projectId)
     {
         $project = $this->getRow("SELECT * FROM projects WHERE id = :id", [
@@ -29,5 +35,10 @@ class Project extends Model
     public function deleteProject($data)
     {
         $this->delete("projects", "id", $data);
+    }
+
+    public function updateProject($data, $id)
+    {
+        $this->update($data, "projects", "id", $id);
     }
 }

@@ -13,10 +13,11 @@ class Home extends Controller
             session_destroy();
         }
 
+        $siteModel = $this->Model("site");
+        $data = $siteModel->fetchAll();
         $data['username'] = empty($_SESSION['user']) ? 'User':$_SESSION['user']['username'];
         $data['email'] = empty($_SESSION['user']) ? 'Mail':$_SESSION['user']['email'];
         $_SESSION['LAST_ACTIVITY'] = time();
-        
         $this->viewArgs("home", $data);
     }
 
@@ -33,9 +34,35 @@ class Home extends Controller
             return header("Location:".ROUTE."home");
         } 
 
+        $siteModel = $this->Model("site");
+        $data = $siteModel->fetchAll();
         $data['username'] = empty($_SESSION['user']) ? 'User':$_SESSION['user']['username'];
         $data['email'] = empty($_SESSION['user']) ? 'Mail':$_SESSION['user']['email'];
+
+        if(!empty($_POST["site-update-submit"]) && $_POST['csrfToken'] === $_SESSION['csrf_token']) {
+            if(!empty($_POST['homepagetext'])) {
+                $sanitized = filter_var($_POST['homepagetext'], FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+                $siteModel->updateSite(['homepage_text' => $sanitized]);
+                header("Location:".ROUTE."home");
+            } 
+            
+            if(!empty($_FILES['avatar'])) {
+                $allowed = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
+                if(!in_array($_FILES['avatar']['type'], $allowed)) {
+                    echo "Only jpeg, png, gif or webp are allowed.";
+                } else {
+                    $fileName = uniqid().$_FILES['avatar']['name'];
+                    $filePath = ROUTE . "assets/img/" . $fileName;
+
+                    move_uploaded_file($_FILES['avatar']['tmp_name'], $_SERVER["DOCUMENT_ROOT"]. "/php-site-school/public/assets/img/".$fileName);
+                    $siteModel->updateSite(['user_avatar' => $filePath]);
+                    header("Location:".ROUTE."home");
+                }
+            }
+        }
+
         $this->viewArgs("admin", $data);
+
     }
 
     public function users()
@@ -57,7 +84,6 @@ class Home extends Controller
 
         $userModel = $this->model("user");
         $data = $userModel->showUser($_SESSION['user']['id']);
-        $this->viewArgs("settings", $data);
 
         if(!empty($_POST['user-update-submit'])) {
             if($_POST['csrfToken'] === $_SESSION['csrf_token']) {
@@ -70,17 +96,19 @@ class Home extends Controller
                 }
                 if(!empty($_POST['username'])) {
                     $userModel->updateUser($_SESSION['user']['id'], ['username' => $_POST['username']]);
-                    show("Username updated");
+					header("Location:".ROUTE."home");
                 }
                 if(!empty($_POST['email'])) {
                     $userModel->updateUser($_SESSION['user']['id'], ['email' => $_POST['email']]);
-                    show("Email updated");
+                    header("Location:".ROUTE."home");
                 }
 
             } else {
                 show("CSRF token is not valid");
             }         
         }
+
+		$this->viewArgs("settings", $data);
     }
 
     public function create()
@@ -129,8 +157,6 @@ class Home extends Controller
                 $userModel = $this->model("user");
                 $user = $userModel->showUser($value);
 
-                show($user->admin);
-
                 if($user->admin == 1) {
                     $userModel->updateUser($value, ['admin' => 0]);
                 } else {
@@ -139,7 +165,6 @@ class Home extends Controller
 
                 if($_SESSION['user']['id'] == $value) {
                     $_SESSION['user']['admin'] = $user->admin == 1 ? 0 : 1;
-                    header("Location:".ROUTE."home");
                 }
                 
                 header("Location:".ROUTE."home/users");
@@ -162,7 +187,10 @@ class Home extends Controller
 
     public function projects() 
     {
-       $this->view("projects");
+    	$projectModel = $this->model("project");
+		$projects = $projectModel->fetchAllProjects();
+
+       	$this->viewArgs("projects", $projects);
     }
 
     public function userprojects($userId)
@@ -203,64 +231,79 @@ class Home extends Controller
             return header("Location:".ROUTE."home");
         } 
 
-        if(isset($_POST['delete-project-user'])) {
-            if($_POST['csrfToken'] === $_SESSION['csrf_token']) {
-                
-                $projectModel = $this->model("project");
-                $projectModel->deleteProject($id);
-
-                header("Location:".ROUTE."home/projectmanager/u".$id);
-
+        if(str_starts_with($id, "u")) {
+            $id = substr($id, strpos($id, "u") + 1);    
+            $projectModel = $this->model("project");
+            $data = $projectModel->fetchUserProjects($id);
+            
+            if(!empty($data)) {
+                $this->viewArgs("project_manager_user", $data);
             } else {
-                show("CSRF token is not valid");
+                show("User hasn't any projects!");
             }
+    
+        } elseif(str_starts_with($id, "delete")){
+            $id = substr($id, strpos($id, "pdelete") + 6);
+            $projectModel = $this->model("project");
+            $project = $projectModel->fetchProjectById($id);
+            show($id);
+            if(!$project) {
+                return show("Project not existing");
+            }
+
+            $userId = $project->creator_id;
+            $projectModel->deleteProject($id);
+            header("Location:projectmanager/u".$userId);
+            
+        } elseif(str_starts_with($id, "edit")) {
+            $id = substr($id, strpos($id, "edit") + 4);
+            $projectModel = $this->model("project");
+            $project = $projectModel->fetchProjectById($id);
+
+
+            if(!empty($_POST['submit-post'])) {
+                if($_POST['csrfToken'] === $_SESSION['csrf_token']) {
+                    if(!empty($_POST["project-title"]) && !empty($_POST["project-content"])) {
+                        $sanitizedTitle = filter_var( $_POST["project-title"], FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+                        $sanitizedContent = filter_var( $_POST["project-content"], FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+                        
+                        $projectModel -> updateProject([
+                            "title" => $sanitizedTitle,
+                            "content" => $sanitizedContent
+                        ], $id);
+                        
+                        header("Location:projects/p".$id);
+                    }
+                }
+            }
+
+            $this->viewArgs("project_manager_edit", $project);
+        }else {
+            show("Invalid param");
         }
-        
-        $id = substr($id, strpos($id, "u") + 1);    
-        $projectModel = $this->model("project");
-        $data = $projectModel->fetchUserProjects($id);
-
-        $this->viewArgs("project_manager_user", $data);
-
     }
 
-    public function deleteUserProjects($id)
+    public function contact()
     {
-        if($_SESSION['user']['admin'] !== 1) {
-            return header("Location:".ROUTE."home");
-        } 
-
-        if(isset($_POST['delete-project-user'])) {
+        if(!empty($_POST['contact-submit'])) {
             if($_POST['csrfToken'] === $_SESSION['csrf_token']) {
-                
-                $projectModel = $this->model("project");
-                $projectModel->deleteProject($id);
+                if(!empty($_POST['message']) && !empty($_POST['subject'])) {
+                    $userModel = $this->model("user");
+                    $user = $userModel->showUser($_SESSION['user']['id']);
+                    $email_address = $user->email;
+                    $sanitizedSubject = filter_var($_POST['subject'], FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+                    $sanitizedMessage = filter_var($_POST['message'], FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+                    $contact_mail = "guiot.matthieu@live.fr";
+                    $headers = "From: $contact_mail\n";
+                    $headers .= "Reply-To: $email_address";
 
-                header("Location:".ROUTE."home/projectmanager/u".$id);
-
+                    mail($contact_mail,$sanitizedSubject,$sanitizedMessage,$headers);
+                    header("Location:".ROUTE."home");
+                }
             } else {
                 show("CSRF token is not valid");
-            }
+            }         
         }
-    }
-
-    public function deleteProject($id)
-    {
-        if($_SESSION['user']['admin'] !== 1) {
-            return header("Location:".ROUTE."home");
-        } 
-
-        if(isset($_POST['delete-project'])) {
-            if($_POST['csrfToken'] === $_SESSION['csrf_token']) {
-                
-                $projectModel = $this->model("project");
-                $projectModel->deleteProject($id);
-
-                header("Location:".ROUTE."home/projects");
-
-            } else {
-                show("CSRF token is not valid");
-            }
-        }
+        $this->view("contact");
     }
 }

@@ -37,7 +37,7 @@ class Model extends Database
         $data['id'] = $id;
         $this->query($query, $data);
     }
-
+    
     public function delete($table, $where, $id)
     {
         $query = "DELETE FROM ".$table." WHERE ".$where." = :id";

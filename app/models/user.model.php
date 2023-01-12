@@ -53,6 +53,19 @@ class User extends Model
     public function updateUser($id, $data)
     {
         $this->update($data, "users", "id", $id);
+
+        $user = $this->getRow("SELECT * FROM users WHERE id = :id", [
+            "id" => $id 
+        ]);
+
+        if ($user) {
+            $_SESSION['user'] = [
+                "id" => $user->id,
+                "username" => $user->username,
+                "email" => $user->email,
+                "admin" => $user->admin
+            ];
+        }
     }
 
     public function checkUserCreds($data)

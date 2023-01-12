@@ -11,7 +11,7 @@
     <div class="container mx-auto px-4 py-2 flex items-center justify-between">
       <a href="#" class="text-xl font-bold text-gray-900">Admin Dashboard</a>
       <div>
-        <a href="users" class="px-4 py-2 font-bold text-gray-900 rounded-full hover:bg-gray-300 focus:outline-none focus:shadow-outline-blue active:bg-gray-800">User Management</a>
+        <a href="projects" class="px-4 py-2 font-bold text-gray-900 rounded-full hover:bg-gray-300 focus:outline-none focus:shadow-outline-blue active:bg-gray-800">Projects</a>
         <a href="<?=ROUTE?>home" class="px-4 py-2 font-bold text-gray-900 rounded-full hover:bg-gray-300 focus:outline-none focus:shadow-outline-blue active:bg-gray-800">Home</a>
         <a href="settings" class="px-4 py-2 font-bold text-gray-900 rounded-full hover:bg-gray-300 focus:outline-none focus:shadow-outline-blue">Settings</a>
         <a href="logout" class="px-4 py-2 font-bold text-gray-900 rounded-full hover:bg-gray-300 focus:outline-none focus:shadow-outline-blue">Logout</a>
@@ -27,14 +27,58 @@
       </div>
     </div>
     <div class="bg-white shadow rounded-md p-4">
-      <h2 class="text-xl font-bold mb-2">Recent Activity</h2>
-      <ul>
-        <li class="mb-2">Lorem ipsum dolor sit amet</li>
-        <li class="mb-2">Consectetur adipiscing elit</li>
-        <li class="mb-2">Proin dignissim mi at diam elementum</li>
-      </ul>
+    <form method="post" action="" enctype="multipart/form-data">
+                <div class="flex flex-col mb-5">
+                    <label for="homepagetext" class="block text-gray-700 font-medium mb-2">Change homepage text:</label>
+                    <textarea class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="content" name="homepagetext" rows="10" placeholder="Write your homepage text here"><?=$data[0]->homepage_text?></textarea>
+                </div>
+                <div class="flex flex-col mb-6">
+                <label class="block text-gray-700 font-medium mb-2" for="avatar">Change avatar image</label>
+                <input class="mb-2 bg-gray-200 appearance-none border-2 border-gray-200 rounded w-96 py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-blue-500" type="file" id="avatar" name="avatar">
+                <input type="hidden" name="csrfToken" value="<?=$_SESSION["csrf_token"]?>"/>
+                <button
+                    type="submit"
+                    name="site-update-submit"
+                    value="site-update-submit"
+                    class="
+                    flex
+                    mt-2
+                    items-center
+                    justify-center
+                    focus:outline-none
+                    text-white text-sm
+                    sm:text-base
+                    bg-blue-500
+                    hover:bg-blue-600
+                    rounded-2xl
+                    py-2
+                    w-40
+                    transition
+                    duration-150
+                    ease-in
+                    "
+                >
+                    <span class="mr-2 uppercase">Update</span>
+                    <span>
+                    <svg
+                        class="h-6 w-6"
+                        fill="none"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                    >
+                        <path
+                        d="M13 9l3 3m0 0l-3 3m3-3H8m13 0a9 9 0 11-18 0 9 9 0 0118 0z"
+                        />
+                    </svg>
+                    </span>
+                </button>
+                </div>
+            </form>
     </div>
-    <button type="button" onclick="window.location.href='home/create'" class="mt-5 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Manage Projects</button>
+    <button type="button" onclick="window.location.href='users'" class="mt-5 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Manage Users</button>
   </div>
 </body>
 </html>

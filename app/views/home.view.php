@@ -24,11 +24,14 @@
   </nav>
   <div class="container mx-auto px-4 py-8">
     <div class="flex items-center mb-4">
-      <img src="<?php echo ROUTE;?>assets/img/base_avatar.webp" alt="Profile Picture" class="w-12 h-12 rounded-full mr-4">
+      <img src="<?=$data[0]->user_avatar?>" alt="Profile Picture" class="w-12 h-12 rounded-full mr-4">
       <div>
-        <h1 class="text-2xl font-bold mb-2 text-black"><?=$data['username']?></h1>
+        <h1 class="text-2xl font-bold mb-2 text-black">Welcome, <?=$data['username']?></h1>
         <p class="text-lg font-light text-black"><?=$data['email']?></p>
       </div>
+    </div>
+    <div class="mb-2">
+		<?=$data[0]->homepage_text?>
     </div>
     <div class="bg-white shadow rounded-md p-4">
       <h2 class="text-xl font-bold mb-2">Recent Activity</h2>
@@ -39,7 +42,7 @@
       </ul>
     </div>  
     <button type="button" onclick="window.location.href='home/create'" class="mt-5 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Create Project</button>
-
+    <button type="button" onclick="window.location.href='home/contact'" class="mt-5 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Contact Staff</button>
 </div>
 </body>
 </html>

@@ -25,6 +25,7 @@ class Register extends Controller
                     $email = trim(filter_var($_POST['email'], FILTER_SANITIZE_EMAIL));
                     $password = trim($_POST['password']);
                     $passwordValidate = trim($_POST['password-validate']);
+   
                     if(!preg_match('/^\w{3,}$/', $username)) {
                         show("<div class='text-white absolute'>Please use a username that is at least 3 letters.</div>");
                     } elseif(!preg_match('/^(?=.*\d)(?=.*[@#\-_$%^&+=§!\?])(?=.*[a-z])(?=.*[A-Z])[0-9A-Za-z@#\-_$%^&+=§!\?]{8,20}$/',$password)) {
@@ -33,14 +34,13 @@ class Register extends Controller
                         show("Your passwords are not the same!");
                     } elseif(!filter_var($email, FILTER_VALIDATE_EMAIL)) {
                         show("<div class='text-white absolute'>Please specify a valid email</div>");
-                    } elseif($userModel->checkUserCreds($username) !== 1) { 
+                    } elseif($userModel->checkUserCreds($username) == 0) { 
                         show("<div class='text-white absolute'>username already exists!</div>");
-                    } elseif($userModel->checkUserCreds($email) !== 1) {
+                    } elseif($userModel->checkUserCreds($email) == 0) {
                         show("<div class='text-white absolute'>email already exists!</div>");
                     } else {
                         $password = hashPassword($password);
-                        $user = $this->model("user");
-                        $user->registerInput([
+                        $userModel->registerInput([
                             "username" => $username,
                             "email" => $email,
                             "password" => $password

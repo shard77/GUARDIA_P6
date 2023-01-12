@@ -28,7 +28,6 @@ class Login extends Controller
                         "username" => $username,
                         "password" => $password
                     ]);
-                    show($user);
 
                     if(!$user) {
                         show("<div class='text-white absolute'>Username or password is incorrect!</div>");

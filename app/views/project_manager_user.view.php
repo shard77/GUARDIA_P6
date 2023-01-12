@@ -45,10 +45,10 @@
                     </div>
                   </div>  
                 </div>
-                <form action="projectmanager/<?=$project->creator_id?>/p<?$project->id?>" method="post">
-                        <input type="hidden" name="csrfToken" value="<?=$_SESSION["csrf_token"]?>"/>
-                        <button type="submit" name="delete-user-submit" value="delete-user-submit" class="btn bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">Delete</button>
-                      </form>
+                <div class="mt-2">
+                  <button onclick="window.location.href='delete<?=$project->id?>'" class="btn bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">Delete</button>                  
+                  <button onclick="window.location.href='edit<?=$project->id?>'" class="btn bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Edit</button>                  
+                </div>
               </div>
             <?php
               }

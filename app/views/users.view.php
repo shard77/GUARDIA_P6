@@ -6,10 +6,19 @@
     <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
   </head>
   <body class="bg-gray-200">
-    <nav class="bg-white border-b border-gray-300 py-4">
-      <div class="container mx-auto flex justify-between items-center">
-        <a href="#" class="font-bold text-xl">User Management</a>
-        <button class="btn bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Add User</button>
+  <nav class="bg-white shadow-md rounded-md">
+      <div class="container mx-auto px-4 py-2 flex items-center justify-between">
+        <a href="#" class="text-xl font-bold text-gray-900">Project Creation</a>
+        <div>
+          <a href="<?=ROUTE?>home" class="px-4 py-2 font-bold text-gray-900 rounded-full hover:bg-gray-300 focus:outline-none focus:shadow-outline-blue active:bg-gray-800">Home</a>
+          <a href="settings" class="px-4 py-2 font-bold text-gray-900 rounded-full hover:bg-gray-300 focus:outline-none focus:shadow-outline-blue">Settings</a>
+          <?php 
+            if($_SESSION['user']['admin'] == 1) {
+                echo "<a href='admin' class='px-4 py-2 font-bold text-gray-900 rounded-full hover:bg-gray-300 focus:outline-none focus:shadow-outline-blue'>Admin</a>";
+            }
+          ?>
+          <a href="logout" class="px-4 py-2 font-bold text-gray-900 rounded-full hover:bg-gray-300 focus:outline-none focus:shadow-outline-blue">Logout</a>
+        </div>
       </div>
     </nav>
     <div class="container mx-auto py-8">
